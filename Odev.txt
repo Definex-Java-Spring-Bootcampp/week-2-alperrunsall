@@ -1,0 +1,85 @@
+******Senkron ve Asenkron iletişim nedir örneklerle açıklayın?
+Senkron iletişimde, bir işlemin tamamlanması için beklenir ve işlem sonucu döndürülür. İşlem tamamlanana kadar diğer işlemler durur.
+Asenkron iletişimde, bir işlem tamamlanırken diğer işlemler devam edebilir. İşlem tamamlandığında sonuç işlenir. Örnek email servis.
+
+******RabbitMQ ve Kafka arasındaki farklar nelerdir?
+RabbitMQ bir mesaj kuyruğu olarak çalışır. Mesajları alır, işler ve hedefe ileterek sistemler arasında iletişim kurmayı sağlar.
+Kafka bir olay akış platformudur. Büyük veri miktarlarını gerçek zamanlı olarak işlemek, depolamak ve iletmek için tasarlanmıştır.
+
+RabbitMQ, mesajları geçici olarak saklar ve işlemciye ulaştırıldıktan sonra siler.
+Kafka, verileri diskte kalıcı olarak saklar ve istemcilerin veriye geri dönmesini sağlar.
+
+RabbitMQ, daha düşük gecikmeye sahiptir ancak kafka kadar yüksek veri akış hızına ulaşamaz.
+
+******Docker ve Virtual Machine nedir?
+İkisi de yazılım uygulamalarını izole edilmiş bir ortamda çalıştırılması için kullanılan teknolojilerdir.
+Sanal makine, fiziksel bir bilgisayar üzerinde sanal bir bilgisayar ortamı sağlayan yazılım tabanlı bir emülatördür.
+Her bir sanal makine, kendi işletim sistemini ve uygulamalarını barındırabilir. Sanal makineler, bir hipervizör tarafından yönetilir ve fiziksel makineyi sanal makinelerle bölüştürür.
+Docker ise daha hafif ve daha hızlıdır, çünkü fiziksel bir işletim sistemi paylaşırlar ve daha az kaynak tüketirler. 
+
+******Docker ile RabbitMQ ve PostgreSQL ve ya MySQL kurulumu yapın
+Ekte mevcut
+
+******Docker komutlarını örneklerle açıklayın
+-docker pull: Bir Docker imajını Docker Hub veya başka bir imaj deposundan çekmek için kullanılır.(docker pull ubuntu)
+-docker ps: Çalışan Docker konteynerlerini listelemek için kullanılır.(docker ps)
+-docker stop: Bir Docker konteynerini durdurmak için kullanılır.(docker stop my_container)
+-docker rm: Bir Docker konteynerini silmek için kullanılır.(docker rm my_container)
+-docker images: Mevcut Docker imajlarını listelemek için kullanılır.(docker images)
+-docker exec: Bir çalışan Docker konteynerine komut çalıştırmak için kullanılır.(docker exec -it my_container bash) 
+
+******Microservice ve Monotlith mimarilerini kıyaslayın
+Monolithic: Monolitik mimaride, tüm uygulama tek bir büyük yazılım modülü olarak geliştirilir ve dağıtılır. Bu tür uygulamalarda herhabgi bir değişiklik genellikle tüm uygulamayı etkiler.
+Microservices mimarisinde, uygulama bir dizi küçük ve bağımsız servise bölünür. Bu tür uygulamalarda her hizmet birbirinden bağımsız olduğu için bir hizmetin çökmesi diğerlerini etkilemez.
+
+******API Gateway, Service Discovery, Load Balancer kavramlarını açıklayın
+API Gateway: Bir uygulamanın ön yüzüdür ve gelen istekleri alır, yönlendirir ve işler. Genellikle, birçok mikro-servisin arkasındaki karmaşık yapıyı gizlemek için kullanılır ve istemcilere basit bir tek noktadan erişim sağlar.
+Service Discovery: Mikro-servis mimarilerinde servislerin dinamik olarak bulunmasını ve iletişim kurmasını sağlayan bir sistemdir. Mikro-servisler genellikle dinamik olarak ölçeklendirilebilir ve dağıtılabilir.
+Load Balancer: Gelen istekleri birden çok hedefe dağıtmak ve yükü dengeli bir şekilde dağıtmak için kullanılan bir sistemdir. Mikro-servis mimarilerinde, belirli bir hizmete gelen isteklerin yükünü dağıtmak için kullanılır. Bu, hizmetin ölçeklenebilirliğini artırır ve hizmet kesintilerini önler.
+
+******Hibernate, JPA, Spring Data framework’lerini örneklerle açıklayın.
+-Hibernate, Java nesnelerini ilişkisel veritabanı tablolarıyla eşleştirmek ve bu nesnelerin veritabanında saklanmasını, güncellenmesini ve alınmasını sağlamak için kullanılır.
+
+---Örnek---
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(name = "username")
+    private String username;
+    
+    @Column(name = "email")
+    private String email;
+}
+
+Örnekte, User sınıfı Hibernate tarafından bir JPA entity olarak işaretlenmiştir. @Entity annotasyonu, bu sınıfın bir JPA entity olduğunu belirtir. @Table annotasyonu, bu sınıfın veritabanında hangi tabloya karşılık geldiğini belirtir. @Id annotasyonu, birincil anahtar alanını belirtir.
+
+-JPA, Java uygulamalarında ilişkisel veritabanlarına erişimi kolaylaştırmak için bir API'dir. JPA, nesne-tablo eşleştirmesi ve diğer ORM işlemleri için standart bir arayüz sağlar.
+
+---Örnek---
+EntityManagerFactory emf = Persistence.createEntityManagerFactory("myPersistenceUnit");
+EntityManager em = emf.createEntityManager();
+
+em.getTransaction().begin();
+em.persist(user);
+em.getTransaction().commit();
+        
+em.close();
+emf.close();
+
+Örnekte, EntityManager oluşturulur ve bir User nesnesi veritabanına kaydedilir.
+
+-Spring Data, Spring framework'ün bir parçası olarak sunulan bir modüldür ve veritabanı işlemlerini kolaylaştırmak için tasarlanmıştır.
+
+---Örnek---
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByUsername(String username);
+}
+
+Örnekte, Spring Data JPA kullanılarak UserRepository interface'i tanımlanmıştır. Bu interface, User entity'si için temel CRUD işlemlerini ve özel bir sorguyu içerir.
+
+
